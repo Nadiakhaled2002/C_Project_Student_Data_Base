@@ -1,4 +1,5 @@
 #include "sdb.h"
+#include <string.h> 
 student* head = NULL;
 //i created a pointer to struct name head to point to the biggening of the single linked list carrying null
 bool sdb_isFull()
@@ -36,9 +37,8 @@ unit8 SDB_GetUsedSize()
 
 }
 
-bool SDB_AddEntry(uint32 student_id, uint32 student_year, uint32 course1_id,
-	uint32 course1_grade, uint32 course2_id, uint32 course2_grade, uint32 course3_id,
-	uint32 course3_grade)
+bool SDB_AddEntry(uint32 student_id, uint32 student_year, Int8*Student_Name,
+	float Student_GPA, Int8*Student_Gender)
 {
 	//i initialised the node then allocated it
 	student *temp = (student*)malloc(sizeof(student));
@@ -47,12 +47,10 @@ bool SDB_AddEntry(uint32 student_id, uint32 student_year, uint32 course1_id,
 		//to add a new node at the beginning the head must be = NULL then adding the data inside each node
 		temp->Student_ID = student_id;
 		temp->Student_year = student_year;
-		temp->Course1_ID = course1_id;
-		temp->Course1_grade = course1_grade;
-		temp->Course2_ID = course2_id;
-		temp->Course2_grade = course2_grade;
-		temp->Course3_ID = course3_id;
-		temp->Course3_grade = course3_grade;
+	
+		strcpy(temp->Student_Name, Student_Name);
+		temp->Student_GPA = Student_GPA;
+		strcpy(temp->Student_Gender, Student_Gender);
 		temp->next = head;
 		head = temp;
 		//make the next pointer pointer carry null
@@ -66,12 +64,11 @@ bool SDB_AddEntry(uint32 student_id, uint32 student_year, uint32 course1_id,
 		//adding nodes at the end and adding the new data inside the node
 		temp->Student_ID = student_id;
 		temp->Student_year = student_year;
-		temp->Course1_ID = course1_id;
-		temp->Course1_grade = course1_grade;
-		temp->Course2_ID = course2_id;
-		temp->Course2_grade = course2_grade;
-		temp->Course3_ID = course3_id;
-		temp->Course3_grade = course3_grade;
+		strcpy(temp->Student_Name, Student_Name);
+		temp->Student_GPA = Student_GPA;
+	
+		 strcpy(temp->Student_Gender, Student_Gender);
+		// 
 		//ptr is a pointer to struct that carryis the address of the head which is the first node address 
 		student* ptr = head;
 		//while function will loop until it reaches the node before the last 
@@ -132,10 +129,10 @@ void SDB_DeletEntry(uint32 id)
 
 }
 
-bool SDB_ReadEntry(uint32 id)
+bool SDB_ReadEntryByID(uint32 id)
 {
 	//checking if the added is 3 students or less if true print else do not print
-	if (SDB_GetUsedSize() >= 3) {
+	//if (SDB_GetUsedSize() >= 3) {
 		//temp is the pointer that points to the nodes inside the linked list
 		student* temp = NULL;
 		temp = head;
@@ -143,17 +140,19 @@ bool SDB_ReadEntry(uint32 id)
 		while (temp != NULL)
 		{
 			//if checks the id that is to be pretned 
+
 			if (temp->Student_ID == id)
 			{
 				//printing the data inside the node then breaking out of the while
 				printf("Student Id: %d\n", temp->Student_ID);
 				printf("Student year: %d\n", temp->Student_year);
-				printf("course 1 id: %d\n", temp->Course1_ID);
-				printf("course 1 grade: %d\n", temp->Course1_grade);
-				printf("course 2 id: %d\n", temp->Course2_ID);
-				printf("course 2 grade %d\n", temp->Course2_grade);
-				printf("course 3 id: %d\n", temp->Course3_ID);
-				printf("course 3 grade: %d\n", temp->Course3_grade);
+				
+				
+					printf("name: %s\n", temp->Student_Name);
+				
+				printf("student gpa: %.2f\n", temp->Student_GPA);
+				printf("student gender: %s\n", temp->Student_Gender);
+				
 				break;
 
 			}
@@ -168,9 +167,53 @@ bool SDB_ReadEntry(uint32 id)
 		}
 		else
 			return 1;
+	//}
+	//else
+		//printf("the min is 3 students add more\n");
+}
+
+bool SDB_ReadEntryByNAME(Int8* name)
+{
+
+	//checking if the added is 3 students or less if true print else do not print
+	//if (SDB_GetUsedSize() >= 3) {
+		//temp is the pointer that points to the nodes inside the linked list
+	student* temp = NULL;
+	temp = head;
+	// while will loop until the temp pointes to the last node carrying null in the next pointer
+	while (temp != NULL)
+	{
+		//if checks the id that is to be pretned 
+
+		if (strcmp(temp->Student_Name, name) == 0)
+		{
+			//printing the data inside the node then breaking out of the while
+			printf("Student Id: %d\n", temp->Student_ID);
+			printf("Student year: %d\n", temp->Student_year);
+
+
+			printf("name: %s\n", temp->Student_Name);
+
+			printf("student gpa: %.2f\n", temp->Student_GPA);
+			printf("student gender: %s\n", temp->Student_Gender);
+
+			break;
+
+		}
+		//the temp pointer is incremented to point to the next node to search for the data that is to be printed 
+		temp = temp->next;
+	}
+
+	if (temp == NULL)
+	{
+		return 0;
+
 	}
 	else
-		printf("the min is 3 students add more\n");
+		return 1;
+	//}
+	//else
+		//printf("the min is 3 students add more\n");
 }
 
 void SDB_GetList(unit8* count, uint32* list)
@@ -190,12 +233,12 @@ void SDB_GetList(unit8* count, uint32* list)
 				{
 					printf("Student Id: %d\n", ptr->Student_ID);
 					printf("Student year: %d\n", ptr->Student_year);
-					printf("course 1 id: %d\n", ptr->Course1_ID);
-					printf("course 1 grade: %d\n", ptr->Course1_grade);
-					printf("course 2 id: %d\n", ptr->Course2_ID);
-					printf("course 2 grade %d\n", ptr->Course2_grade);
-					printf("course 3 id: %d\n", ptr->Course3_ID);
-					printf("course 3 grade: %d\n", ptr->Course3_grade);
+
+
+					printf("name: %s\n", ptr->Student_Name);
+
+					printf("student gpa: %.2f\n", ptr->Student_GPA);
+					printf("student gender: %s\n", ptr->Student_Gender);
 					break;
 
 				}
@@ -215,27 +258,77 @@ void SDB_GetList(unit8* count, uint32* list)
 bool SDB_IsIdExist(uint32 id)
 {
 	student* ptr = head;
+	unit8 flag=0;
+	unit8 flag0;
 	//while function loops through the linked list until it reaches the node before the last 
-	while (ptr->next != NULL)
+	while (!flag)
 	{
 		//if the data is found it will break out of the while
 		if (ptr->Student_ID == id)
 		{
+			flag0 = 1;
+			break;
+
+		}
+		if (ptr->next == NULL)
+		{
+			flag = 1;
+		}
+		ptr = ptr->next;
+	}
+	if (flag0 == 1)
+	{
+		return 1;
+	}
+	else
+		return 0;
+
+
+}
+bool SDB_update(uint32 id,uint32 student_year, float student_gpa, unit8 choise)
+{
+	student* ptr = head;
+	unit8 flag = 0;
+	unit8 flag0;
+	//while function loops through the linked list until it reaches the node before the last 
+	while (!flag)
+	{
+		//if the data is found it will break out of the while
+		if (ptr->Student_ID == id)
+		{
+			flag0 = 1;
+			switch (choise)
+			{
+			case 0:
+			{
+				ptr->Student_year = student_year;
+				break;
+			}
+			case 1:
+			{
+				ptr->Student_GPA = student_gpa;
+				break;
+			}
+			}
 			
 			break;
 
 		}
+		if (ptr->next == NULL)
+		{
+			flag = 1;
+		}
 		ptr = ptr->next;
 	}
-	if (ptr->next == NULL)
+	if (flag0 == 1)
 	{
-		return 0;
+		return 1;
 
 	}
 	else
-		return 1;
-
-
+	{
+		
+		return 0;
+	}
 }
-
 
