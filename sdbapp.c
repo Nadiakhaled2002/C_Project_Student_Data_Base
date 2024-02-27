@@ -323,6 +323,39 @@ void sdb_action(unit8 choice)
 		uint32 id;
 		printf("enter id and current year then enter 0 for year and 1 for gpa:\n");
 		scanf("%d%d%d", &id,&newyear,&choise);
+		uint32 a = 0;
+		uint32 x = 0;
+		unit8 flag = 0;
+		unit8 count = 0;
+		while (flag)
+		{
+			a = stid;
+			while (a != 0)
+			{
+
+
+				a = a / 10;
+				count++;
+			}
+			if (stcount >= 1)
+				x = SDB_IsIdExist(stid);
+			else
+				x = 0;
+			if ((x == 1) || (count != 7))
+			{
+				printf("please enter a unique ID that is 7 digits\n");
+				scanf("%d", &stid);
+
+			}
+			else
+			{
+
+				flag = 0;
+			}
+			x = 0;
+			a = 0;
+			count = 0;
+		}
 		switch (choise)
 		{
 		case 0:

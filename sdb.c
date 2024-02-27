@@ -175,7 +175,6 @@ bool SDB_ReadEntryByID(uint32 id)
 bool SDB_ReadEntryByNAME(Int8* name)
 {
 
-	
 	//checking if the added is 3 students or less if true print else do not print
 	//if (SDB_GetUsedSize() >= 3) {
 		//temp is the pointer that points to the nodes inside the linked list
@@ -227,14 +226,14 @@ bool SDB_ReadEntryByNAME(Int8* name)
 void SDB_GetList(unit8* count, uint32* list)
 {
 	
-	
+	unit8 flag = 0;
 	
 		student* ptr = head;
 		
 		// the for loop is to print the ids that was taken in an array it will loop until it reaches the number of data the user want to search for
 		for (unit8 i = 0; i < (*count); i++) {
 			//while is to loop all the linked list until it finds the data and will start from the beginning of the linked list so the data doesnt have to be sorted 
-			while (ptr != NULL)
+			while (!flag)
 			{
 				//when the data is found the if function prints the data and breaks out of the while
 				if (ptr->Student_ID == list[i])
@@ -249,6 +248,10 @@ void SDB_GetList(unit8* count, uint32* list)
 					printf("student gender: %s\n", ptr->Student_Gender);
 					break;
 
+				}
+				if (ptr->next == NULL)
+				{
+					flag = 1;
 				}
 				ptr = ptr->next;//ptr is inc to irritate the linked list  
 
