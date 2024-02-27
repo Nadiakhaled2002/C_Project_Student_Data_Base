@@ -175,18 +175,22 @@ bool SDB_ReadEntryByID(uint32 id)
 bool SDB_ReadEntryByNAME(Int8* name)
 {
 
+	
 	//checking if the added is 3 students or less if true print else do not print
 	//if (SDB_GetUsedSize() >= 3) {
 		//temp is the pointer that points to the nodes inside the linked list
 	student* temp = NULL;
 	temp = head;
+	unit8 flag = 0;
+	unit8 flag0 = 0;
 	// while will loop until the temp pointes to the last node carrying null in the next pointer
-	while (temp != NULL)
+	while (!flag)
 	{
 		//if checks the id that is to be pretned 
 
 		if (strcmp(temp->Student_Name, name) == 0)
 		{
+			flag0 = 1;
 			//printing the data inside the node then breaking out of the while
 			printf("Student Id: %d\n", temp->Student_ID);
 			printf("Student year: %d\n", temp->Student_year);
@@ -201,16 +205,20 @@ bool SDB_ReadEntryByNAME(Int8* name)
 
 		}
 		//the temp pointer is incremented to point to the next node to search for the data that is to be printed 
+		if (ptr->next == NULL)
+		{
+			flag = 1;
+		}
 		temp = temp->next;
 	}
 
-	if (temp == NULL)
+	if (flag0==1)
 	{
-		return 0;
+		return 1;
 
 	}
 	else
-		return 1;
+		return 0;
 	//}
 	//else
 		//printf("the min is 3 students add more\n");
