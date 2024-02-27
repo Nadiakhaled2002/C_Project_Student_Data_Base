@@ -205,7 +205,7 @@ bool SDB_ReadEntryByNAME(Int8* name)
 
 		}
 		//the temp pointer is incremented to point to the next node to search for the data that is to be printed 
-		if (ptr->next == NULL)
+		if (temp->next == NULL)
 		{
 			flag = 1;
 		}
